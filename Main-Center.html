@@ -816,10 +816,12 @@ const uploadImage = document.getElementById('uploadImage');
 const uploadBtn = document.getElementById('uploadBtn');
 const cardsContainer = document.getElementById('cardsContainer');
 
+// Guardar en localStorage
 function saveToLocalStorage(imageData, phrase, posY = 0) {
   localStorage.setItem('savedCard', JSON.stringify({ image: imageData, phrase, posY }));
 }
 
+// Cargar desde localStorage
 function loadFromLocalStorage() {
   const dataStr = localStorage.getItem('savedCard');
   if (!dataStr) return;
@@ -827,13 +829,14 @@ function loadFromLocalStorage() {
   createCard(data.image, data.phrase, true, data.posY);
 }
 
+// Crear card
 function createCard(imageUrl, phrase = "", disableInput = false, posY = 0) {
   uploadBtn.style.display = 'none';
 
   const card = document.createElement('div');
   card.classList.add('card');
 
-  // Imagen
+  // Contenedor de imagen
   const imgContainer = document.createElement('div');
   imgContainer.classList.add('img-container');
   card.appendChild(imgContainer);
@@ -899,14 +902,10 @@ function createCard(imageUrl, phrase = "", disableInput = false, posY = 0) {
   input.placeholder = 'Escribe tu frase aquí...';
   input.value = phrase;
   input.disabled = disableInput;
-
-  // OCULTAR input si ya está guardado
-  if(disableInput && phrase.trim() !== "") {
-    input.style.display = 'none';
-  }
+  if(disableInput && phrase.trim() !== "") input.style.display = 'none';
   card.appendChild(input);
 
-  // Frase + icono
+  // Frase + icono editar
   const phraseWrapper = document.createElement('div');
   phraseWrapper.classList.add('phrase-wrapper');
 
@@ -917,7 +916,7 @@ function createCard(imageUrl, phrase = "", disableInput = false, posY = 0) {
   phraseWrapper.appendChild(phraseDiv);
 
   const editIcon = document.createElement('img');
-  editIcon.src = 'https://cdn-icons-png.flaticon.com/512/1159/1159633.png'; // lápiz
+  editIcon.src = 'https://cdn-icons-png.flaticon.com/512/1159/1159633.png';
   editIcon.classList.add('edit-icon');
   editIcon.style.display = disableInput ? 'block' : 'none';
   phraseWrapper.appendChild(editIcon);
@@ -928,33 +927,34 @@ function createCard(imageUrl, phrase = "", disableInput = false, posY = 0) {
   const saveBtn = document.createElement('button');
   saveBtn.textContent = 'Guardar';
   saveBtn.classList.add('save-btn');
-  saveBtn.style.display = 'none'; // siempre oculto por defecto
+  // Mostrar automáticamente si es editable
+  saveBtn.style.display = disableInput ? 'none' : 'inline-block';
   card.appendChild(saveBtn);
 
-  // Animación fade-in para guardar
+  // Función para animar botón guardar
   function showSaveButton() {
     saveBtn.style.display = 'inline-block';
     saveBtn.style.opacity = 0;
-    setTimeout(() => { saveBtn.style.transition = 'opacity 0.4s'; saveBtn.style.opacity = 1; }, 10);
+    setTimeout(() => { 
+      saveBtn.style.transition = 'opacity 0.4s'; 
+      saveBtn.style.opacity = 1; 
+    }, 10);
   }
 
-  // Guardar
+  // Guardar frase
   saveBtn.addEventListener('click', () => {
     if(input.value.trim() === "") return alert("Escribe algo 😄");
-
     input.style.display = 'none';
     saveBtn.style.display = 'none';
     editIcon.style.display = 'block';
     phraseDiv.style.display = 'block';
     phraseDiv.textContent = input.value;
-
     card.classList.add('saved-animation');
     setTimeout(() => card.classList.remove('saved-animation'), 800);
-
     saveToLocalStorage(img.src, input.value, currentTop);
   });
 
-  // Editar
+  // Editar frase
   editIcon.addEventListener('click', () => {
     input.style.display = 'block';
     input.disabled = false;
@@ -970,7 +970,6 @@ function createCard(imageUrl, phrase = "", disableInput = false, posY = 0) {
 uploadImage.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if(!file) return;
-
   const reader = new FileReader();
   reader.onload = function(event) {
     createCard(event.target.result);
@@ -979,10 +978,10 @@ uploadImage.addEventListener('change', (e) => {
   uploadImage.value = '';
 });
 
-// Cargar guardado
+// Cargar card guardada
 loadFromLocalStorage();
-
 </script>
+
 
      
 
