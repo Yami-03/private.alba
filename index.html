@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Yamilet 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Montserrat", sans-serif;
+    overflow:hidden;
+}
+
+/* Fondo */
+.container{
+    position:relative;
+    height:100vh;
+    background:url("https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1974&auto=format&fit=crop") center/cover no-repeat;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(255,120,170,.8), rgba(80,60,200,.85));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* Tarjeta central */
+.card{
+    background:rgba(255,255,255,.1);
+    backdrop-filter:blur(12px);
+    border-radius:20px;
+    padding:50px;
+    text-align:center;
+    color:white;
+    width:85%;
+    max-width:600px;
+    animation:fade 1.5s ease;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(40px)}
+    to{opacity:1; transform:translateY(0)}
+}
+
+.title{
+    font-family:"Great Vibes", cursive;
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+.text{
+    font-size:18px;
+    margin-bottom:25px;
+}
+
+/* Botón */
+button{
+    border:none;
+    padding:12px 25px;
+    border-radius:30px;
+    background:white;
+    color:#7a49d1;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.08);
+}
+
+/* Mensaje oculto */
+.hidden{
+    margin-top:25px;
+    opacity:0;
+    transition:1s;
+    font-size:20px;
+}
+
+.show{
+    opacity:1;
+}
+
+/* Corazones flotando */
+.heart{
+    position:absolute;
+    color:white;
+    font-size:20px;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh); opacity:1}
+    to{transform:translateY(-10vh); opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="overlay">
+
+        <div class="card">
+            <div class="title">Yamilet y Eun-Woo</div>
+            <div class="text">
+                Even the scars that were formed from our 
+                pasts are proof that we fought 💜
+            </div>
+
+            <button onclick="window.location.href='Main-Center.html'">Haz clic aquí</button>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+function mostrar(){
+    const card = document.querySelector(".card");
+    card.style.transition = "all 1s ease";
+    card.style.opacity = 0;
+    card.style.transform = "scale(0.8)";
+    
+    setTimeout(() => {
+        card.style.display = "none";
+
+        // Crear nuevo contenido tipo landing
+        const landing = document.createElement("div");
+        landing.style.position = "absolute";
+        landing.style.inset = 0;
+        landing.style.display = "flex";
+        landing.style.flexDirection = "column";
+        landing.style.alignItems = "center";
+        landing.style.justifyContent = "center";
+        landing.style.color = "white";
+        landing.style.background = "linear-gradient(180deg, rgba(255,0,150,0.8), rgba(0,0,100,0.8))";
+        landing.innerHTML = `
+            <h1 style="font-family:'Great Vibes', cursive; font-size:80px; margin-bottom:20px;">LOVE</h1>
+            <p style="font-size:24px; text-align:center; max-width:600px;">
+                Día del amor y la amistad<br>
+                Gracias por estar en mi vida ✨
+            </p>
+        `;
+        document.querySelector(".overlay").appendChild(landing);
+    }, 1000);
+}
+</script>
+
+
+<script>
+
+/* Mostrar mensaje */
+function mostrar(){
+    document.getElementById("mensaje").classList.add("show");
+}
+
+/* Crear corazones flotantes */
+setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(10+Math.random()*20)+"px";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),6000);
+},400);
+
+</script>
+
+</body>
+</html>  
